@@ -31,6 +31,43 @@ sudo mkdir -p "$SPA_DST"
 sudo rsync -a --delete "$REPO_DIR/dist/spa/" "$SPA_DST/"
 sudo chown -R www-data:www-data "$WWW_DIR"
 
+echo "Copying server build to $WWW_DIR/dist/server (so systemd can run Node entry)"
+sudo mkdir -p "$WWW_DIR/dist/server"
+if [ -d "$REPO_DIR/dist/server" ]; then
+  sudo rsync -a --delete "$REPO_DIR/dist/server/" "$WWW_DIR/dist/server/"
+else
+  echo "Warning: $REPO_DIR/dist/server not found; build may have failed or server was not built." >&2
+fi
+sudo chown -R www-data:www-data "$WWW_DIR/dist/server"
+
+echo "Copying package manifests and installing production dependencies into $WWW_DIR"
+# Copy package manifests so we can install runtime deps where systemd expects them
+sudo cp -f "$REPO_DIR/package.json" "$WWW_DIR/package.json"
+if [ -f "$REPO_DIR/package-lock.json" ]; then
+  sudo cp -f "$REPO_DIR/package-lock.json" "$WWW_DIR/package-lock.json"
+fi
+if [ -f "$REPO_DIR/pnpm-lock.yaml" ]; then
+  sudo cp -f "$REPO_DIR/pnpm-lock.yaml" "$WWW_DIR/pnpm-lock.yaml"
+fi
+
+# Prefer pnpm if available, fall back to npm. Install into $WWW_DIR so node can resolve packages.
+if command -v pnpm >/dev/null 2>&1; then
+  echo "Using pnpm to install production deps in $WWW_DIR"
+  sudo pnpm install --prod --dir "$WWW_DIR" || true
+elif command -v npm >/dev/null 2>&1; then
+  if [ -f "$REPO_DIR/package-lock.json" ]; then
+    echo "Running npm ci --production --prefix $WWW_DIR"
+    sudo npm ci --production --prefix "$WWW_DIR" || true
+  else
+    echo "Running npm install --production --prefix $WWW_DIR"
+    sudo npm install --production --prefix "$WWW_DIR" || true
+  fi
+else
+  echo "Warning: neither pnpm nor npm found in PATH; skipping production dependency install." >&2
+fi
+
+sudo chown -R www-data:www-data "$WWW_DIR"
+
 echo "Installing Apache site (if not present)..."
 if [ ! -f "/etc/apache2/sites-available/$APACHE_SITE_NAME" ]; then
   echo "Copying deploy/apache-ndc.conf to /etc/apache2/sites-available/$APACHE_SITE_NAME"

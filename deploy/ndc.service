@@ -1,4 +1,4 @@
-[Unit]
+sudo systemctl status ndc.service[Unit]
 Description=NDC Node API
 After=network.target
 
