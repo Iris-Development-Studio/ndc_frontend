@@ -20,8 +20,8 @@ export function Sidebar() {
       {/* Header */}
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-            <div className="w-6 h-6 bg-gradient-to-br from-sidebar to-sidebar-primary rounded-full" />
+          <div className="w-10 h-10  flex items-center justify-center flex-shrink-0">
+            <img src="/Blur.png" className="h-10 w-auto" alt="Logo" />
           </div>
           <div className="flex-1">
             <h1 className="text-sm font-semibold leading-tight">
