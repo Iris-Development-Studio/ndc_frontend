@@ -6,7 +6,7 @@ export function createSummaryRoutes(db: Database) {
     const router = Router()
 
     // WATER SUMMARY
-    router.get("/summary-performance/water", async (req, res) => {
+    router.get("summary-performance/water", async (req, res) => {
         try {
             const rows = await db.all(`
         SELECT 
@@ -26,7 +26,7 @@ export function createSummaryRoutes(db: Database) {
     })
 
     // WASTE SUMMARY
-    router.get("/summary-performance/waste", async (req, res) => {
+    router.get("summary-performance/waste", async (req, res) => {
         try {
             const rows = await db.all(`
         SELECT 

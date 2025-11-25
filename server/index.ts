@@ -31,6 +31,8 @@ export async function createServer() {
   app.use("/api/counties", createCountiesRoutes(db));
   app.use("/api/publications", (await import("./routes/publications")).createPublicationsRoutes(db));
   app.use("/api/indicators", createIndicatorsRoutes(db))
+
+
   app.use("/api/counties", createSummaryRoutes(db))
   // Example API routes
   app.get("/api/ping", (_req, res) => {
