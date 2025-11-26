@@ -32,17 +32,17 @@ export default function AboutToolPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm md:text-base">
                 <thead>
-                  <tr className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                    <th className="px-6 py-5 text-left font-bold uppercase tracking-wider">Key Component</th>
-                    <th className="px-6 py-5 text-left font-bold uppercase tracking-wider">Scoring Indicators</th>
-                    <th className="px-6 py-5 text-center font-bold uppercase tracking-wider w-32">Format</th>
+                  <tr className="bg-white text-black">
+                    <th className="px-6 py-5 text-left  uppercase tracking-wider">Key Component</th>
+                    <th className="px-6 py-5 text-left border uppercase tracking-wider">Scoring Indicators</th>
+                    <th className="px-6 py-5 text-center border uppercase tracking-wider w-32">Format</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
 
                   {/* Governance */}
-                  <tr className="bg-blue-50">
-                    <td rowSpan={6} className="px-6 py-8 align-top font-bold text-blue-900 w-80">
+                  <tr className="bg-emerald-50 border">
+                    <td rowSpan={6} className="px-6 py-8 border align-top font-bold text-blue-900 w-80">
                       Governance<br />
                       <span className="text-sm font-normal text-blue-700">(Weight: 30%)</span>
                       <p className="mt-2 text-sm font-normal text-gray-700">
@@ -50,7 +50,7 @@ export default function AboutToolPage() {
                       </p>
                     </td>
                     <td className="px-6 py-4">Existence of relevant sector policy aligned with NDCs, county action plan or sectoral climate strategy, institution involved in climate governance</td>
-                    <td className="px-6 py-4 text-center font-medium text-gray-800">Yes/No</td>
+                    <td className="px-6 py-4 text-center border font-medium text-gray-800">Yes/No</td>
                   </tr>
                   {[
                     "% of staff trained in climate-related planning",
@@ -59,16 +59,16 @@ export default function AboutToolPage() {
                     "Stakeholder participation mechanism established (public forums, workshops)",
                     "Coordination mechanism established (committees, MoUs)"
                   ].map((indicator, i) => (
-                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                    <tr key={i} className="hover:bg-gray-50 border *:transition-colors">
                       <td className="px-6 py-4">{indicator}</td>
-                      <td className="px-6 py-4 text-center font-medium text-gray-800">
+                      <td className="px-6 py-4 text-center border font-medium text-gray-800">
                         {indicator.includes("%") ? "%" : "Yes/No"}
                       </td>
                     </tr>
                   ))}
 
                   {/* MRV */}
-                  <tr className="bg-emerald-50">
+                  <tr className="bg-emerald-50 border">
                     <td rowSpan={6} className="px-6 py-8 align-top font-bold text-emerald-900 w-80">
                       MRV (Monitoring, Reporting & Verification)<br />
                       <span className="text-sm font-normal text-emerald-700">(Weight: 20%)</span>
@@ -76,7 +76,7 @@ export default function AboutToolPage() {
                         Measures data availability, quality, tracking systems, and reporting mechanisms to ensure transparency.
                       </p>
                     </td>
-                    <td className="px-6 py-4">Existence of MRV system for NDC tracking</td>
+                    <td className="px-6 py-4 border">Existence of MRV system for NDC tracking</td>
                     <td className="px-6 py-4 text-center font-medium text-gray-800">Yes/No</td>
                   </tr>
                   {[
@@ -87,13 +87,13 @@ export default function AboutToolPage() {
                     { text: "Verification mechanism in place", format: "Yes/No" }
                   ].map((item, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4">{item.text}</td>
-                      <td className="px-6 py-4 text-center font-medium text-gray-800">{item.format}</td>
+                      <td className="px-6 border py-4">{item.text}</td>
+                      <td className="px-6 py-4 border text-center font-medium text-gray-800">{item.format}</td>
                     </tr>
                   ))}
 
                   {/* Mitigation */}
-                  <tr className="bg-amber-50">
+                  <tr className="bg-amber-50 border">
                     <td rowSpan={7} className="px-6 py-8 align-top font-bold text-amber-900 w-80">
                       Mitigation<br />
                       <span className="text-sm font-normal text-amber-700">(Weight: 20%)</span>
@@ -101,8 +101,8 @@ export default function AboutToolPage() {
                         Actions that reduce greenhouse gas emissions: renewable energy, efficiency, circular economy, methane capture.
                       </p>
                     </td>
-                    <td className="px-6 py-4">GHG emission reduction target exists</td>
-                    <td className="px-6 py-4 text-center font-medium text-gray-800">Yes/No</td>
+                    <td className="px-6 border py-4">GHG emission reduction target exists</td>
+                    <td className="px-6 py-4 text-center border font-medium text-gray-800">Yes/No</td>
                   </tr>
                   {[
                     "Annual GHG reduction achieved (%)",
@@ -113,8 +113,8 @@ export default function AboutToolPage() {
                     "Circular economy initiatives adopted"
                   ].map((indicator, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4">{indicator}</td>
-                      <td className="px-6 py-4 text-center font-medium text-gray-800">
+                      <td className="px-6 border py-4">{indicator}</td>
+                      <td className="px-6 py-4 border text-center font-medium text-gray-800">
                         {indicator.includes("%") ? "%" : "Yes/No"}
                       </td>
                     </tr>
@@ -129,8 +129,8 @@ export default function AboutToolPage() {
                         Preparedness for climate impacts: water stress, floods, droughts, and support for vulnerable communities.
                       </p>
                     </td>
-                    {/* <td className="px-6 py-4">Climate risk assessment conducted</td>
-                    <td className="px-6 py-4 text-center font-medium text-gray-800">Yes/No</td> */}
+                    <td className="px-6 border py-4">Climate risk assessment conducted</td>
+                    <td className="px-6 border py-4 text-center font-medium text-gray-800">Yes/No</td>
                   </tr>
                   {[
                     "Climate risk assessment conducted",
@@ -138,7 +138,7 @@ export default function AboutToolPage() {
                     "Number of early warning systems operational",
                     "Ecosystem restoration area covered",
                     "% of vulnerable communities supported",
-                    "Drought/flood response protocols in place"
+                    
                   ].map((indicator, i) => (
                     <tr key={i} className="hover:bg-gray-50 border-t transition-colors">
                       <td className="px-6 border-l py-4">{indicator}</td>
@@ -159,10 +159,11 @@ export default function AboutToolPage() {
                         Tracks funding availability, climate budget allocation, access to finance, PPPs, and cost recovery.
                       </p>
                     </td>
-                    
+                    <td className="px-6 border py-4">Climate budget line exists</td>
+                    <td className="px-6 border py-4 text-center font-medium text-gray-800">Yes/No</td>
                   </tr>
                   {[
-                    { text: "Climate budget line exists", format: "Yes/No" },
+                   
                     { text: "Disaster risk reduction budget allocation", format: "KES" },
                     { text: "% of county budget allocated to climate actions", format: "%" },
                     { text: "Amount of climate finance mobilized (donors, PPPs)", format: "KES" },
