@@ -33,10 +33,10 @@ sudo chown -R www-data:www-data "$WWW_DIR"
 
 echo "Copying server build to $WWW_DIR/dist/server (so systemd can run Node entry)"
 sudo mkdir -p "$WWW_DIR/dist/server"
-if [ -d "$REPO_DIR/dist/server" ]; then
+if [ -d "$REPO_DIR/../dist/server" ]; then
   sudo rsync -a --delete "$REPO_DIR/../dist/server/" "$WWW_DIR/dist/server/"
 else
-  echo "Warning: $REPO_DIR/dist/server not found; build may have failed or server was not built." >&2
+  echo "Warning: $REPO_DIR/../dist/server not found; build may have failed or server was not built." >&2
 fi
 sudo chown -R www-data:www-data "$WWW_DIR/dist/server"
 
