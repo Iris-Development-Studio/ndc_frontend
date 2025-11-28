@@ -88,12 +88,19 @@ export default function Home() {
 
     const rawData = activeTab === "water" ? waterSummaryData : wasteSummaryData;
 
-    const rankedData: RankedCounty[] = rawData
-        .filter((item): item is CountySummaryPerformance => !!item && typeof item.score === "number")
-        .map((item, index) => ({ ...item, rank: index + 1 }))
-        .sort((a, b) => b.score - a.score)
-        .map((_, index) => ({ ...rawData[index], rank: index + 1 }))
-
+    const rankedData: RankedCounty[] = Array.isArray(rawData)
+        ? rawData
+            .filter((item): item is CountySummaryPerformance =>
+                item != null &&
+                typeof item.name === "string" &&
+                typeof item.score === "number"
+            )
+            .sort((a, b) => b.score - a.score)
+            .map((item, index) => ({
+                ...item,
+                rank: index + 1,
+            }))
+        : [];
     const getPerformanceBadge = (score: number) => {
         if (score >= 90) return { text: "Outstanding", color: "bg-green-600" }
         if (score >= 75) return { text: "Satisfactory", color: "bg-emerald-600" }
@@ -157,6 +164,10 @@ export default function Home() {
                                 <div>Loading summary data...</div>
                             ) : errorSummaryData ? (
                                 <div className="text-red-500">{errorSummaryData}</div>
+                            ) : rankedData.length === 0 ? (
+                                <div className="text-center py-8 text-gray-500">
+                                    No performance data available for {activeTab === "water" ? "Water" : "Waste"} Management
+                                </div>
                             ) : (
                                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                                     <div className="overflow-x-auto">
