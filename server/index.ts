@@ -8,6 +8,7 @@ import { createThematicAreasRoutes } from "./routes/thematicAreas.ts"; // FIX 2:
 import { createCountiesRoutes } from "./routes/counties.ts"; // FIX 3: Added .js extension
 import { createIndicatorsRoutes } from "./routes/indicator.ts"; // FIX 4: Added .js extension
 import { createSummaryRoutes } from "./routes/summary.ts" // FIX 5: Added .js extension
+import { createPublicationsRoutes } from "./routes/publications.ts";
 import authRouter from "./routes/auth.ts"; // FIX 6: Added .js extension
 
 /**
@@ -32,7 +33,7 @@ export async function createServer() {
   app.use("/counties", createCountiesRoutes(db));
   // The dynamic import already handles the extension well, but let's ensure consistency if possible.
   // Assuming the publication route is defined in publications.js/ts and exported correctly.
-  app.use("/publications", (await import("./routes/publications.js")).createPublicationsRoutes(db));
+  app.use("/publications", createPublicationsRoutes(db));
   app.use("/indicators", createIndicatorsRoutes(db))
 
 

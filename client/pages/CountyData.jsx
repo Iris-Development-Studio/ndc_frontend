@@ -138,16 +138,23 @@ export default function CountyData() {
         await api.updateCounty(editingId, { name: county, population: population || null });
       }
 
-      await fetch(`/api/counties/${countyId}/ndc-index`, {
+      await fetch(`/api/counties/${countyId}/performance`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          year: Number(year),
-          scores: Object.fromEntries(INDICATORS.map(i => [i.id, scores[i.id] || ""])),
-          pillarScores,
-          totalScore,
-          rating: rating.label,
-        }),
+    year: Number(year),
+    sector: "water", // or make it dynamic if you have both
+    overall_score: totalScore,
+    sector_score: totalScore,
+    governance: pillarScores.Governance,
+    mrv: pillarScores.MRV,
+    mitigation: pillarScores.Mitigation,
+    adaptation: pillarScores.Adaptation,
+    finance: pillarScores.Finance,
+    indicators: Object.fromEntries(
+      INDICATORS.map(i => [i.id, scores[i.id] || ""])
+    ),
+  }),
       });
     },
     onSuccess: () => {
@@ -288,9 +295,9 @@ export default function CountyData() {
           <button
             onClick={() => saveMutation.mutate()}
             disabled={saveMutation.isPending || !county}
-            className="flex items-center gap-3 px-10 py-4 bg-blue-500 text-white text-lg font-bold rounded-xl hover:shadow-lg disabled:opacity-50 transition"
+            className="flex items-center gap-3 px-10 py-4 bg-blue-500 text-white text-lg rounded-xl hover:shadow-lg disabled:opacity-50 transition"
           >
-            <Save size={24} />
+            
             {saveMutation.isPending ? "Saving..." : "Save NDC Index Data"}
           </button>
         </div>
