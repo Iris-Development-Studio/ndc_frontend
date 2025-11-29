@@ -21,17 +21,43 @@ export default function SignupPage() {
         termsAgreed: false,
     })
 
+    const [passwordStrength, setPasswordStrength] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+  });
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target
         setFormData((prev) => ({
             ...prev,
             [name]: type === "checkbox" ? checked : value,
         }))
+
+       if (name === "password") {
+      setPasswordStrength({
+        length: value.length >= 8,
+        uppercase: /[A-Z]/.test(value),
+        lowercase: /[a-z]/.test(value),
+        number: /\d/.test(value),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+      });
+    }
+
+    const isPasswordStrong = Object.values(passwordStrength).every(Boolean);
     }
 
  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!isPasswordStrong) {
+      alert("Please create a stronger password (see requirements below)");
+      setLoading(false);
+      return;
+    }
 
     if (!formData.termsAgreed) {
         alert("You must agree to the terms and conditions");
@@ -152,11 +178,49 @@ export default function SignupPage() {
                         id="password"
                         name="password"
                         type="password"
-                        placeholder="Value"
+                        placeholder="Enter a strong password"
                         value={formData.password}
                         onChange={handleChange}
                         required
+                        className="mb-3"
                     />
+                    {/* Strength Bar */}
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-3">
+            <div
+              className={`h-full transition-all duration-300 ${
+                strengthScore === 5
+                  ? "bg-green-500"
+                  : strengthScore >= 3
+                  ? "bg-yellow-500"
+                  : strengthScore >= 1
+                  ? "bg-orange-500"
+                  : "bg-red-500"
+              }`}
+              style={{ width: `${(strengthScore / 5) * 100}%` }}
+            />
+            <p className="text-xs text-gray-600 mb-2">Your password must contain:</p>
+          <ul className="space-y-1 text-xs">
+            {[
+              { key: "length", text: "At least 8 characters" },
+              { key: "uppercase", text: "One uppercase letter" },
+              { key: "lowercase", text: "One lowercase letter" },
+              { key: "number", text: "One number" },
+              { key: "special", text: "One special character (!@#$ etc.)" },
+            ].map((rule) => (
+              <li key={rule.key} className="flex items-center gap-2">
+                {passwordStrength[rule.key as keyof typeof passwordStrength] ? (
+                  <Check className="w-4 h-4 text-green-600" />
+                ) : (
+                  <X className="w-4 h-4 text-red-500" />
+                )}
+                <span className={passwordStrength[rule.key as keyof typeof passwordStrength] ? "text-green-700" : "text-gray-500"}>
+                  {rule.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+          </div>
+
                 </div>
 
                 <div className="flex items-center gap-2">
